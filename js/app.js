@@ -7,11 +7,11 @@ parking.controller("parkingCtrl", function ($scope) {
   $scope.appTitle = "eiParking [Packt]";
   $scope.infoTopic = "Welcome!";
   $scope.infoDescription = "Please insert plate and color of the car";
-  $scope.showAlert = false;
-  $scope.alertTopic = "Something went wrong!";
-  $scope.alertDescription = "You must inform the plate and the color of the car!";
-  $scope.closeAlert = function () {
-    $scope.showAlert = false;
+  $scope.showInfo = true;
+  $scope.alertTopic = "Be careful!";
+  $scope.alertDescription = "The plate should follow this pattern: XX123XX (2 letters, 3 numbers, 2 letters)";
+  $scope.closeInfo = function () {
+    $scope.showInfo = false;
   };
 
   // Binding the car’s array to the scope
@@ -31,6 +31,7 @@ parking.controller("parkingCtrl", function ($scope) {
     car.entrance = new Date();
     $scope.cars.push(angular.copy(car));
     delete $scope.car;
+    $scope.carForm.$setPristine()
   };
 
 });
@@ -42,8 +43,7 @@ parking.directive("alert", function () {
     restrict: 'E',
     scope: {
       topic: '=topic',
-      description: '=description',
-      close: '&close'
+      description: '=description'
     },
     templateUrl: 'tpl/alertdiv.html',
     replace: true
@@ -54,7 +54,8 @@ parking.directive("info", function () {
     restrict: 'E',
     scope: {
       topic: '=topic',
-      description: '=description'
+      description: '=description',
+      close: '&close'
     },
     templateUrl: 'tpl/infodiv.html',
     replace: true

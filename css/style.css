@@ -13,7 +13,7 @@
   opacity: 1;
 }
 
-.inputdiv {
+.carform {
 	margin: 12px 0;
 }
 
@@ -35,7 +35,8 @@
     border-radius: 2px;
     box-shadow: 2px 2px 5px #cdcdcd;
 }
-.info-topic {
+.info-topic, 
+.alert-topic {
 	font-weight: bold;
 }
 

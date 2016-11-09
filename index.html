@@ -17,20 +17,27 @@
   <body ng-controller="parkingCtrl">
     
     <h3 ng-bind="appTitle"></h3>
-    <info topic="infoTopic" description="infoDescription"></info>
+    <info ng-show="showInfo" topic="infoTopic" description="infoDescription" close="closeInfo()"></info>
     
-    <div class="inputdiv">
+    <form name="carForm" class="carform">
       <!-- Binding the car object, with plate, to the scope -->
-      <input type="text" ng-model="car.plate" placeholder="Type the plate here..." />
+      <input type="text" 
+             ng-model="car.plate" 
+             placeholder="Type the plate here..." 
+             name="plateField"
+             ng-required="true"
+             ng-minlength="7"
+             ng-maxlength="7"
+             ng-pattern="/[A-Za-z]{2}[0-9]{3}[A-Za-z]{2}/" />
       <select ng-model="car.color" ng-options="color for color in colors">Pick a color</select>
       <!-- Binding the park function to the click event -->
-      <button ng-click="park(car)" ng-disabled="!car.plate || !car.color">Park</button>
+      <button ng-click="park(car)" ng-disabled="!car.plate || !car.color || carForm.plateField.$invalid">Park</button>
       <!-- directive:alert -->
-      <alert ng-show="showAlert"
+      <alert ng-show="carForm.plateField.$dirty && carForm.plateField.$invalid"
              topic="alertTopic"
-             description="alertDescription"
-             close="closeAlert()"></alert>
-    </div>
+             description="alertDescription">
+      </alert>
+    </form>
 
     <div ng-show="cars.length > 0">
       <input type="text" 
