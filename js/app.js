@@ -2,10 +2,12 @@
 var parking = angular.module("parking", ['ngAnimate']);
 
 // Registering the parkingCtrl to the parking module
-parking.controller("parkingCtrl", function ($scope) {
+//parking.controller("parkingCtrl", function ($scope, $filter) {
+// instead of using the simple form above, to avoid errors in minification it's better to use the inline array annotation
+parking.controller("parkingCtrl", ["$scope", "$filter", "$window", function ($scope, $filter, $window) {
   
   $scope.appTitle = "eiParking [Packt]";
-  $scope.infoTopic = "Welcome!";
+  $scope.infoTopic = $filter("uppercase")("Welcome!");
   $scope.infoDescription = "Please insert plate and color of the car";
   $scope.showInfo = true;
   $scope.alertTopic = "Be careful!";
@@ -15,15 +17,25 @@ parking.controller("parkingCtrl", function ($scope) {
   };
 
   // Binding the car’s array to the scope
-  $scope.cars = [];
+  //$scope.cars = [];
   /*
   $scope.cars = [
-    {plate: '6MBV006', color: 'White'}, 
-    {plate: '5BBM299', color: 'Red'}, 
-    {plate: '5AOJ230', color: 'Black'}
+    {plate: 'BV006VB', color: 'White', entrance: new Date(2016, 10, 20, 11, 10, 30, 0)}, 
+    {plate: 'BB299ZA', color: 'Red', entrance: new Date(2016, 10, 20, 10, 33, 24, 0)}, 
+    {plate: 'AJ230SA', color: 'Black', entrance: new Date(2016, 10, 20, 11, 33, 41, 0)}
   ];
   */
+  // Loading the car’s array from localStorage
+  $scope.saved = $window.localStorage.getItem('eiparkedcars');
+  $scope.cars = ($window.localStorage.getItem('eiparkedcars')!==null) ? JSON.parse($scope.saved) :
+  [
+    {plate: 'BV006VB', color: 'White', entrance: new Date(2016, 10, 20, 11, 10, 30, 0)}, 
+    {plate: 'BB299ZA', color: 'Red', entrance: new Date(2016, 10, 20, 10, 33, 24, 0)}, 
+    {plate: 'AJ230SA', color: 'Black', entrance: new Date(2016, 10, 20, 11, 33, 41, 0)}
+  ];
+  $window.localStorage.setItem('eiparkedcars', JSON.stringify($scope.cars));
 
+  
   $scope.colors = ["White", "Black", "Blue", "Red", "Silver"];
   
   // Binding the park function to the scope
@@ -31,10 +43,13 @@ parking.controller("parkingCtrl", function ($scope) {
     car.entrance = new Date();
     $scope.cars.push(angular.copy(car));
     delete $scope.car;
-    $scope.carForm.$setPristine()
+    $scope.carForm.$setPristine();
+    $window.localStorage.setItem('eiparkedcars', JSON.stringify($scope.cars));
   };
 
-});
+}]);
+//});
+
 
 /*** DIRECTIVES ***/
 

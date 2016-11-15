@@ -48,7 +48,7 @@
         <thead>
           <tr>
             <th></th>
-            <th>id</th>
+            <th>cnt</th>
             <th><a href="" ng-click="field = 'plate'; order=!order">Plate</a></th>
             <th><a href="" ng-click="field = 'color'; order=!order">Color</a></th>
             <th><a href="" ng-click="field = 'entrance'; order=!order">Entrance</a></th>
@@ -56,7 +56,7 @@
         </thead>
         <tbody>
           <!-- Iterating over the cars -->
-          <tr ng-repeat="car in cars | filter:criteria | orderBy:field:order" ng-class="{selected: car.selected}">
+          <tr ng-repeat="car in cars track by $id($index) | filter:criteria | orderBy:field:order" ng-class="{selected: car.selected}">
             <td><input type="checkbox" ng-model="car.selected"/></td>
             <td>{{$index}}</td>
             <!-- Showing the car’s plate -->
