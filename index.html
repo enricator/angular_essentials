@@ -56,11 +56,11 @@
         </thead>
         <tbody>
           <!-- Iterating over the cars -->
-          <tr ng-repeat="car in cars track by $id($index) | filter:criteria | orderBy:field:order" ng-class="{selected: car.selected}">
+          <tr ng-repeat="car in cars | filter:criteria | orderBy:field:order track by $id($index)" ng-class="{selected: car.selected}">
             <td><input type="checkbox" ng-model="car.selected"/></td>
-            <td>{{$index}}</td>
+            <td><span ng-bind="$index"></span></td>
             <!-- Showing the car’s plate -->
-            <td>{{car.plate | plate:'-'}}</td>
+            <td><span ng-bind="car.plate | plate:'-'"></span></td>
             <td class="carcolor"><span ng-bind="car.color" ng-style="{color: car.color}"></span></td>
             <td><span ng-bind="car.entrance | date:'dd/MM/yyyy HH:mm:ss'"></span></td>
           </tr>

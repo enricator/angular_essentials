@@ -83,9 +83,9 @@ parking.directive("info", function () {
 
 parking.filter("plate", function() {
   return function(input, separator = '-') {
-    var firstPart = input.substring(0,2);
+    var firstPart = input.substring(0,2).toUpperCase();
     var secondPart = input.substring(2,5);
-    var thirdPart = input.substring(5);
+    var thirdPart = input.substring(5).toUpperCase();
     return firstPart + separator + secondPart + separator + thirdPart;
   };
 });
